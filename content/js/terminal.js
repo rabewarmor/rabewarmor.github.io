@@ -275,7 +275,7 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   const cycler = document.querySelector("[data-theme-cycle]");
-  updateLabel(); 
+   
 
   if (cycler) {
     const next = () => {
