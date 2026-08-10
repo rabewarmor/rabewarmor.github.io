@@ -21,10 +21,12 @@
 body {
   margin: 0;
   background: var(--bg);
+  text-align: left; 
   color: var(--fg);
   font: 15px/1.6 "JetBrains Mono", "SF Mono", ui-monospace, monospace;
   -webkit-font-smoothing: antialiased;
 }
+
 
 a { color: var(--link); text-decoration: none; border-bottom: 1px dotted; }
 a:hover { border-bottom-style: solid; }

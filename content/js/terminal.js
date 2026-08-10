@@ -271,11 +271,13 @@
     input.focus();
   });
 
+  restoreTheme();
+  
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   const cycler = document.querySelector("[data-theme-cycle]");
-   
+
 
   if (cycler) {
     const next = () => {
@@ -295,7 +297,6 @@
 
   /* ---------- boot ---------- */
 
-  restoreTheme();
   append(bannerHTML());
   input.focus();
 })();
