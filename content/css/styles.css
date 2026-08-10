@@ -121,13 +121,112 @@ a:hover,
 a:focus-visible { border-bottom-style: solid; outline: none; }
 
 
+/* ---------- TOP BAR ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-raised);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(6px);
+}
+
+.topbar-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0.5rem var(--gap-md);
+  display: flex;
+  align-items: center;
+  gap: var(--gap-md);
+  flex-wrap: wrap;
+}
+
+.topbar-dots { display: inline-flex; gap: 0.4rem; }
+.dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.dot-red    { background: #ff5f56; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green  { background: #27c93f; }
+
+.topbar-title { color: var(--fg-dim); font-size: 0.85em; }
+.topbar-actions { margin-left: auto; display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+.theme-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg-dim);
+  font: inherit;
+  font-size: 0.78em;
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ---------- HEADER ---------- */
+.site-header {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--gap-lg) var(--gap-md) var(--gap-md);
+}
+
+.banner-name {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 9vw, 5rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin: 0 0 var(--gap-sm);
+  text-transform: uppercase;
+  word-break: break-word;
+}
+
+.banner-rule {
+  height: 3px;
+  background: var(--accent);
+  opacity: 0.35;
+  margin: 0 0 var(--gap-md);
+  max-width: 28ch;
+}
+
+.tagline { color: var(--fg-dim); margin: 0 0 var(--gap-md); }
+.meta { color: var(--fg-dim); margin: var(--gap-md) 0 0; font-size: 0.9em; }
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-sm);
+}
+
+.nav-cmd {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--link);
+  font: inherit;
+  font-size: 0.9em;
+  padding: 0.2rem 0.7rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.nav-cmd::before { content: "$ "; color: var(--fg-dim); }
+.nav-link::before { content: ""; }
+.nav-cmd:hover,
+.nav-cmd:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
+}
+
+/* ---------- TERMINAL ---------- */
 .terminal {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--gap-lg) var(--gap-md) 4rem;
-  min-height: 100vh;
+  padding: var(--gap-md) var(--gap-md) 4rem;
+  border-top: 1px solid var(--border);
   cursor: text;
+  /* min-height removed — the header carries the page now */
 }
+
 
 .output > * + * { margin-top: var(--gap-lg); }
 

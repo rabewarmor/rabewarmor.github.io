@@ -222,12 +222,8 @@
   /* ---------- banner ---------- */
 
   function bannerHTML() {
-    return (
-      '<h1 class="banner-name">' + esc(SITE.name) + "</h1>" +
-      '<div class="banner-rule"></div>' +
-      '<div class="tagline">' + esc(SITE.tagline) + " · " + esc(SITE.location) + "</div>" +
-      '<div class="hint">Type <span class="cmd">help</span> to see what this thing does.</div>'
-    );
+    return '<div class="hint">Type <span class="cmd">help</span> for a list of commands, ' +
+           'or click one of the buttons above.</div>';
   }
 
   /* ---------- execution ---------- */
@@ -303,6 +299,17 @@
     if (window.getSelection().toString()) return;
     if (e.target.closest("a")) return;
     input.focus();
+  });
+
+  document.querySelectorAll("[data-cmd]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      run(btn.getAttribute("data-cmd"));
+      input.focus();
+    });
+  });
+
+  document.querySelectorAll("[data-theme-set]").forEach((btn) => {
+    btn.addEventListener("click", () => setTheme(btn.getAttribute("data-theme-set")));
   });
 
   /* ---------- boot ---------- */
