@@ -1,4 +1,4 @@
-
+/* THEMES */
 :root, [data-theme="dark"] {
   --bg:#011627; --fg:#d6deeb; --dim:#637777;
   --accent:#7fdbca; --alt:#c792ea; --link:#82aaff;
@@ -15,24 +15,38 @@
   --err:#ff5f56; --line:#16301a;
 }
 
-
+/* BASE + PAGE GRID */
 * { box-sizing: border-box; }
+
+html { background: var(--bg); }
 
 body {
   margin: 0;
+  min-height: 100vh;
   background: var(--bg);
-  text-align: left; 
   color: var(--fg);
   font: 15px/1.6 "JetBrains Mono", "SF Mono", ui-monospace, monospace;
   -webkit-font-smoothing: antialiased;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(20rem, 0.85fr);
+  grid-template-areas:
+    "header  terminal"
+    "tiles   terminal"
+    "foot    foot";
+  grid-template-rows: auto auto 1fr;
+  column-gap: 2.5rem;
+  padding: 0 2rem 0 5vw;
+  align-content: start;
 }
 
-.content {
-  max-width: 900px;
-  margin-left: 5%;
-  margin-right: auto;
-}
+/* .wrap no longer sizes anything — the grid does.
+   Kept so index.html needs no edits. */
+.wrap { width: auto; margin: 0; min-width: 0; }
 
+.site-header { grid-area: header; }
+.tiles       { grid-area: tiles; }
+.foot        { grid-area: foot; margin-top: auto; }
 
 a { color: var(--link); text-decoration: none; border-bottom: 1px dotted; }
 a:hover { border-bottom-style: solid; }
@@ -40,18 +54,14 @@ a:hover { border-bottom-style: solid; }
 .dim { color: var(--dim); }
 .err { color: var(--err); }
 .cmd { color: var(--accent); font-weight: 700; }
+.tag { color: var(--alt); }
 
-.wrap {
-  width: min(90vw, 70%);
-  margin-left: 5vw;
-  margin-right: auto;
-}
-
+/* HEADER */
 .site-header { padding: 2.5rem 0 1rem; }
 
 .banner-name {
   font-family: var(--font-display, inherit);
-  font-size: clamp(2rem, 7vw, 3.5rem);
+  font-size: clamp(2rem, 5.5vw, 3.5rem);
   line-height: 1.05;
   letter-spacing: .04em;
   text-transform: uppercase;
@@ -62,17 +72,37 @@ a:hover { border-bottom-style: solid; }
 .tagline { color: var(--dim); margin: 0 0 .5rem; }
 .meta { font-size: .9em; margin: 0; }
 
-/* terminal */
+/* TERMINAL */
 .terminal {
-  padding: 1rem 0 1.5rem;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  grid-area: terminal;
+  align-self: start;
+  position: sticky;
+  top: 2rem;
+
+  max-height: calc(100vh - 6rem);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 2.5rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
   cursor: text;
 }
 
+.output { flex: 1 1 auto; overflow: hidden; }
 .output > * + * { margin-top: 1.5rem; }
+
 .entry-cmd { display: flex; flex-wrap: wrap; gap: 0 .6ch; margin-bottom: .25rem; }
-.cmd-form { display: flex; align-items: baseline; margin-top: 1rem; }
+
+.cmd-form {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  margin-top: 1rem;
+}
 
 .prompt { white-space: nowrap; user-select: none; }
 .p-user { color: var(--accent); font-weight: 700; }
@@ -88,14 +118,25 @@ a:hover { border-bottom-style: solid; }
   caret-color: var(--accent);
 }
 
+.cmd-input:disabled { opacity: .4; }
+
 .hint { color: var(--dim); border-left: 2px solid var(--line); padding-left: 1rem; }
 
-/* tile grid */
+/* ---- seg fault ---- */
+.segfault {
+  color: var(--err);
+  font-weight: 700;
+  letter-spacing: .05em;
+  animation: flicker .12s steps(2) 6;
+}
+@keyframes flicker { 50% { opacity: .25; } }
+
+/* TILE GRID */
 .tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
   gap: 1rem;
-  padding: 2rem 0;
+  padding: 1rem 0 2rem;
 }
 
 .tile {
@@ -128,7 +169,7 @@ a:hover { border-bottom-style: solid; }
 }
 
 .tile-label {
-  font-size: clamp(1.3rem, 3.5vw, 2rem);
+  font-size: clamp(1.1rem, 2.2vw, 1.7rem);
   font-weight: 700;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -147,7 +188,13 @@ a:hover { border-bottom-style: solid; }
   filter: blur(3px) saturate(.9);
 }
 
-/* pages */
+/* SECTION PAGES (about.html, projects.html, …) These pages have no terminal, so reset the grid to one column. */
+body:has(.page-body) {
+  grid-template-columns: 1fr;
+  grid-template-areas: "header" "tiles" "foot";
+  padding: 0 2rem 0 5vw;
+}
+
 .page-header {
   position: relative;
   isolation: isolate;
@@ -155,6 +202,7 @@ a:hover { border-bottom-style: solid; }
   padding: 3rem 1.5rem 2rem;
   border-radius: 6px;
   margin-top: 1.5rem;
+  max-width: 60rem;
 }
 .page-header::before {
   content: "";
@@ -169,7 +217,7 @@ a:hover { border-bottom-style: solid; }
 .back { font-size: .9em; }
 
 .page-title {
-  font-size: clamp(2rem, 7vw, 3.5rem);
+  font-size: clamp(2rem, 6vw, 3.5rem);
   text-transform: uppercase;
   letter-spacing: .05em;
   color: var(--accent);
@@ -177,9 +225,9 @@ a:hover { border-bottom-style: solid; }
   text-shadow: 0 2px 14px rgba(0,0,0,.7);
 }
 
-.page-body { padding: 2rem 0; }
+.page-body { padding: 2rem 0; max-width: 60rem; }
 
-/* content blocks */
+/* CONTENT BLOCKS */
 .section-title {
   color: var(--accent);
   text-transform: uppercase;
@@ -207,7 +255,15 @@ a:hover { border-bottom-style: solid; }
 .kv dt { color: var(--accent); }
 .kv dd { margin: 0; }
 
-/*Footer*/
+.help-grid {
+  display: grid;
+  grid-template-columns: minmax(10ch,auto) 1fr;
+  gap: 0 1rem;
+}
+.help-grid dt { color: var(--accent); }
+.help-grid dd { margin: 0; color: var(--dim); }
+
+/* FOOTER */
 .foot {
   padding: 1.5rem 0 3rem;
   border-top: 1px solid var(--line);
@@ -236,30 +292,32 @@ a:hover { border-bottom-style: solid; }
 }
 
 
-.help-grid { 
-  display: grid; 
-  grid-template-columns: minmax(10ch,auto) 1fr; 
-  gap: 0 1rem; 
+@media (max-width: 900px) {
+  body {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "terminal"
+      "tiles"
+      "foot";
+    grid-template-rows: auto auto auto 1fr;
+    padding: 0 1.25rem;
+  }
+  .terminal {
+    position: static;
+    max-height: 60vh;
+    margin-top: 1.5rem;
+  }
 }
-
-.help-grid dt { 
-  color: var(--accent); 
-}
-
-.help-grid dd { 
-  margin: 0;
-  color: var(--dim); 
-}
-.tag { color: var(--alt); }
 
 @media (max-width: 600px) {
   body { font-size: 14px; }
   .item-head { flex-direction: column; }
   .kv { grid-template-columns: 1fr; }
   .kv dd { margin-bottom: .5rem; }
+  .tiles { grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; }
+  * { transition: none !important; animation: none !important; }
 }
-

@@ -34,6 +34,7 @@
     div.innerHTML = html;
     output.appendChild(div);
     scrollToBottom();
+    checkOverflow()
   }
 
   function echoCommand(raw) {
@@ -44,10 +45,36 @@
   }
 
   function scrollToBottom() {
-    window.requestAnimationFrame(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    });
+    output.scrollTop = output.scrollHeight;
   }
+
+  let faulting = false;
+
+  function checkOverflow() {
+    if (faulting) return;
+    if (output.scrollHeight <= output.clientHeight) return;
+    segfault();
+  }
+
+  function segfault() {
+    faulting = true;
+    input.disabled = true;
+
+    output.innerHTML = "";
+    const err = document.createElement("div");
+    err.className = "segfault";
+    err.textContent = "ERROR: MEMORY SEG FAULT (core dumped)";
+    output.appendChild(err);
+
+    setTimeout(() => {
+      output.innerHTML = "";
+      append('<div class="dim">buffer reset — type <span class="cmd">help</span> to continue.</div>');
+      faulting = false;
+      input.disabled = false;
+      input.focus();
+    }, 1400);
+  }
+  
 
   function itemBlock(item) {
     const org   = item.org ? ' <span class="item-org">— ' + esc(item.org) + "</span>" : "";
@@ -199,6 +226,7 @@
   /* ---------- execution ---------- */
 
   function run(raw) {
+    if (faulting) return;
     echoCommand(raw);
     const line = raw.trim();
     if (!line) { scrollToBottom(); return; }
