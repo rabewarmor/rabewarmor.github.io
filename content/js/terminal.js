@@ -6,7 +6,7 @@
   const form   = document.getElementById("cmd-form");
   const shell  = document.getElementById("terminal");
 
-  const THEMES = ["dark", "light", "matrix", "ubuntu", "amber"];
+  const THEMES = ["dark", "light", "matrix"];
 
   const history = [];
   let historyIndex = -1;
