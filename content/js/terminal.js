@@ -6,7 +6,7 @@
   const form   = document.getElementById("cmd-form");
   const shell  = document.getElementById("terminal");
 
-  const THEMES = ["dark", "light", "matrix", "ubuntu", "amber"];
+  const THEMES = ["dark", "light", "matrix"];
 
   const history = [];
   let historyIndex = -1;
@@ -92,55 +92,25 @@
       }
     },
 
-    about: {
-      desc: "who I am",
-      run() {
-        return section("about", "<div>" + SITE.about.map(esc).join("<br>") + "</div>");
+    open: {
+      desc: "open a section page — usage: open projects",
+      run(args) {
+        const valid = ["about","experience","projects","skills","education","socials"];
+        if (!valid.includes(args[0])) {
+          return '<div class="err">usage: open ' + valid.join("|") + "</div>";
+        }
+        window.location.href = args[0] + ".html";
+        return null;
       }
     },
 
-    experience: {
-      desc: "where I have worked",
-      run() {
-        return section("experience", SITE.experience.map(itemBlock).join(""));
-      }
-    },
-
-    projects: {
-      desc: "things I have built",
-      run() {
-        return section("projects", SITE.projects.map(itemBlock).join(""));
-      }
-    },
-
-    education: {
-      desc: "schooling",
-      run() {
-        return section("education", SITE.education.map(itemBlock).join(""));
-      }
-    },
-
-    skills: {
-      desc: "tools and technologies",
-      run() {
-        const rows = Object.entries(SITE.skills)
-          .map(([k, v]) => "<dt>" + esc(k) + "</dt><dd>" + esc(v) + "</dd>")
-          .join("");
-        return section("skills", '<dl class="kv">' + rows + "</dl>");
-      }
-    },
-
-    socials: {
-      desc: "where to find me",
-      run() {
-        const rows = Object.entries(SITE.socials)
-          .map(([k, v]) =>
-            "<dt>" + esc(k) + "</dt><dd><a href='" + esc(v.url) +
-            "' target='_blank' rel='noopener'>" + esc(v.label) + "</a></dd>")
-          .join("");
-        return section("socials", '<dl class="kv">' + rows + "</dl>");
-      }
-    },
+    // Tile Icon Redirect Commands 
+    about:      { desc: "who I am",              run: () => RENDER.about() },
+    experience: { desc: "where I have worked",   run: () => RENDER.experience() },
+    projects:   { desc: "things I have built",   run: () => RENDER.projects() },
+    education:  { desc: "schooling",             run: () => RENDER.education() },
+    skills:     { desc: "tools and tech",        run: () => RENDER.skills() },
+    socials:    { desc: "where to find me",      run: () => RENDER.socials() },
 
     resume: {
       desc: "open my resume (PDF)",
@@ -301,16 +271,16 @@
     input.focus();
   });
 
-  document.querySelectorAll("[data-cmd]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      run(btn.getAttribute("data-cmd"));
-      input.focus();
-    });
-  });
+  const yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  document.querySelectorAll("[data-theme-set]").forEach((btn) => {
-    btn.addEventListener("click", () => setTheme(btn.getAttribute("data-theme-set")));
-  });
+  const cycler = document.querySelector("[data-theme-cycle]");
+  if (cycler) {
+    cycler.addEventListener("click", () => {
+      const cur = document.documentElement.getAttribute("data-theme") || "dark";
+      setTheme(THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length]);
+    });
+  }
 
   /* ---------- boot ---------- */
 
