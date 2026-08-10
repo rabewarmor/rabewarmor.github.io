@@ -1,3 +1,23 @@
+html {
+  background: var(--bg);   /* canvas always covered, regardless of content height */
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;      /* dvh accounts for mobile browser chrome */
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 15px/1.6 "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+}
+
+.foot {
+  margin-top: auto;        /* absorbs free space — footer sits at the bottom */
+}
+
+
 :root, [data-theme="dark"] {
   --bg:#011627; --fg:#d6deeb; --dim:#637777;
   --accent:#7fdbca; --alt:#c792ea; --link:#82aaff;
