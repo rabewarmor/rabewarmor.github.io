@@ -20,12 +20,12 @@
 
   const promptHTML = () =>
     '<span class="prompt">' +
-      '<span class="prompt-user">visitor</span>' +
-      '<span class="prompt-at">@</span>' +
-      '<span class="prompt-host">rabewar</span>' +
-      '<span class="prompt-sep">:</span>' +
-      '<span class="prompt-path">~</span>' +
-      '<span class="prompt-sym">$</span>' +
+      '<span class="p-user">visitor</span>' +
+      '<span class="p-dim">@</span>' +
+      '<span class="p-host">rabewar</span>' +
+      '<span class="p-dim">:</span>' +
+      '<span class="p-path">~</span>' +
+      '<span class="p-dim">$</span>' +
     '</span>';
 
   function append(html) {
@@ -275,11 +275,21 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   const cycler = document.querySelector("[data-theme-cycle]");
+
   if (cycler) {
-    cycler.addEventListener("click", () => {
+    const next = () => {
       const cur = document.documentElement.getAttribute("data-theme") || "dark";
-      setTheme(THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length]);
+      return THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length];
+    };
+
+    const updateLabel = () => { cycler.textContent = "theme: " + next(); };
+
+    cycler.addEventListener("click", () => {
+      setTheme(next());
+      updateLabel();
     });
+
+    updateLabel();   // set initial label after restoreTheme() has run
   }
 
   /* ---------- boot ---------- */
