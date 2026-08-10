@@ -27,6 +27,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.content {
+  max-width: 900px;
+  margin-left: 5%;
+  margin-right: auto;
+}
+
 
 a { color: var(--link); text-decoration: none; border-bottom: 1px dotted; }
 a:hover { border-bottom-style: solid; }
@@ -35,8 +41,11 @@ a:hover { border-bottom-style: solid; }
 .err { color: var(--err); }
 .cmd { color: var(--accent); font-weight: 700; }
 
-.wrap { width: min(64rem, 100% - 2rem); margin-inline: auto; }
-
+.wrap {
+  width: min(90vw, 70%);
+  margin-left: 5vw;
+  margin-right: auto;
+}
 
 .site-header { padding: 2.5rem 0 1rem; }
 
