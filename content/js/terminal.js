@@ -42,6 +42,7 @@
     div.className = "entry-cmd";
     div.innerHTML = promptHTML() + "<span>" + esc(raw) + "</span>";
     output.appendChild(div);
+    checkOverflow(); 
   }
 
   function scrollToBottom() {
@@ -52,8 +53,13 @@
 
   function checkOverflow() {
     if (faulting) return;
-    if (output.scrollHeight <= output.clientHeight) return;
-    segfault();
+   requestAnimationFrame(() => {
+      if (faulting) return;
+      const overflowing =
+        output.scrollHeight > output.clientHeight + 2 ||
+        shell.scrollHeight  > shell.clientHeight + 2;
+      if (overflowing) segfault();
+    });
   }
 
   function segfault() {

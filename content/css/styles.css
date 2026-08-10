@@ -92,7 +92,7 @@ a:hover { border-bottom-style: solid; }
   cursor: text;
 }
 
-.output { flex: 1 1 auto; overflow: hidden; }
+.output { flex: 1 1 auto; overflow: hidden; min-height: 0; }
 .output > * + * { margin-top: 1.5rem; }
 
 .entry-cmd { display: flex; flex-wrap: wrap; gap: 0 .6ch; margin-bottom: .25rem; }
@@ -151,6 +151,8 @@ a:hover { border-bottom-style: solid; }
   background: var(--bg);
   text-decoration: none;
   transition: border-color .2s, transform .2s;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 /* Blurred photo layer. Inset + scale hides the soft blurred edges. */
