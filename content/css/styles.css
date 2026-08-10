@@ -1,0 +1,23 @@
+:root {
+  /* Colors */
+  --bg: #0d1117;
+  --bg-raised: #161b22;
+  --fg: #c9d1d9;
+  --fg-dim: #8b949e;
+  --accent: #3fb950;       
+  --accent-dim: #2ea043;
+  --border: #30363d;
+  --link: #58a6ff;
+
+  /* Type */
+  --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+  --font-size-base: 15px;
+  --line-height: 1.6;
+
+  /* Spacing */
+  --gap-sm: 0.5rem;
+  --gap-md: 1.25rem;
+  --gap-lg: 2.5rem;
+  --radius: 4px;
+  --max-width: 700px;
+}
